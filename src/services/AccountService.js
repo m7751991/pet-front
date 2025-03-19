@@ -6,11 +6,19 @@ class AccountService {
   }
 
   createAccount(account) {
-    return axios.post(`/account`, account);
+    return axios.post(`/account`, account, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   updateAccount(id, account) {
-    return axios.put(`/account/${id}`, account);
+    return axios.put(`/account/${id}`, account, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   deleteAccount(id) {

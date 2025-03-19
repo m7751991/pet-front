@@ -8,7 +8,13 @@
     </h1>
     <el-table :data="categories" style="width: 100%">
       <el-table-column prop="name" label="类别名称" width="180" />
-      <el-table-column prop="createTime" label="添加日期" />
+
+      <el-table-column prop="createTime" label="添加日期" width="180">
+        <template #default="scope">
+          {{ new Date(scope.row.createTime).toLocaleString() }}
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作">
         <template #default="scope">
           <el-button @click="editCategory(scope.row)" type="text" size="small"
@@ -24,7 +30,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <InputCategory ref="showModal"></InputCategory>
+    <InputCategory ref="showModal" @reload="fetchCategories"></InputCategory>
   </div>
 </template>
 
@@ -69,8 +75,9 @@ const deleteCategory = category => {
           ElMessage.success("删除成功！");
           fetchCategories();
         })
-        .catch(() => {
-          ElMessage.error("删除失败，请重试。");
+        .catch(r => {
+          let res = r?.response?.data;
+          ElMessage.error(res.message);
         });
     })
     .catch(() => {

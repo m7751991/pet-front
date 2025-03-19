@@ -18,7 +18,11 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="180" />
+      <el-table-column label="创建时间" width="180">
+        <template #default="scope">
+          {{ new Date(scope.row.createTime).toLocaleString() }}
+        </template>
+      </el-table-column>
       <el-table-column prop="category.name" label="类别" width="120" />
       <el-table-column label="操作">
         <template #default="scope">
@@ -35,7 +39,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <InputPetInfo ref="showModal"></InputPetInfo>
+    <InputPetInfo ref="showModal" @reload="fetchPets"></InputPetInfo>
   </div>
 </template>
 

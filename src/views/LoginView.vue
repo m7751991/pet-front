@@ -71,7 +71,11 @@ const onSubmit = () => {
         .then(response => {
           console.log("登录成功", response);
           // 将登录信息存储到 Pinia
-          userStore.setUser(loginForm.value.username, response.data.token);
+          userStore.setUser(
+            loginForm.value.username,
+            response.data.token,
+            response.data.user
+          );
           router.push({
             path: "/dashboard/pet-info",
           });

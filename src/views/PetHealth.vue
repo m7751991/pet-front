@@ -48,7 +48,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <InputHealth ref="showModal" />
+    <InputHealth ref="showModal" @reload="fetchHealthRecords" />
   </div>
 </template>
 
@@ -78,11 +78,13 @@ const fetchHealthRecords = () => {
 const viewDetails = record => {
   ElMessage.info(`查看健康记录：${record.name}`);
   // 实现查看详情逻辑
+  showModal.value.openModal(record.id, true);
 };
 
 const editRecord = record => {
   ElMessage.info(`编辑健康记录：${record.name}`);
   // 实现编辑逻辑
+  showModal.value.openModal(record.id);
 };
 
 const deleteRecord = record => {

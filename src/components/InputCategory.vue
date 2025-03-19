@@ -1,13 +1,14 @@
 <template>
   <el-dialog v-model="visible" title="录入宠物类型">
     <el-form :model="formData" ref="formRef">
-      <el-form-item label="类别名称" required>
+      <el-form-item label="类别名称" required prop="name">
         <el-input v-model="formData.name" />
       </el-form-item>
-      <el-form-item label="添加日期" required>
+      <el-form-item label="添加日期" required prop="createTime">
         <el-date-picker
           v-model="formData.createTime"
           type="date"
+          format="YYYY-MM-DD"
           placeholder="选择日期"
         />
       </el-form-item>
@@ -20,15 +21,14 @@
 </template>
 
 <script setup>
-import { ref, defineExpose } from "vue";
+import { ref, defineExpose, defineEmits } from "vue";
 import PetCategoryService from "@/services/PetCategoryService";
 import { ElMessage } from "element-plus";
 
 const visible = ref(false);
 const formData = ref({
   name: "",
-  createDate: null,
-  isAvailable: true,
+  createTime: null,
 });
 
 const formRef = ref(null);
@@ -42,9 +42,7 @@ const openModal = val => {
       .then(response => {
         const category = response.data.find(cat => cat.id === val);
         if (category) {
-          formData.value.name = category.name;
-          formData.value.createDate = category.createTime;
-          formData.value.isAvailable = true; // Set this based on your logic if needed
+          formData.value = category;
         }
       })
       .catch(() => {
@@ -55,6 +53,7 @@ const openModal = val => {
 defineExpose({
   openModal,
 });
+const emit = defineEmits(["reload"]);
 
 const submitForm = () => {
   formRef.value.validate(async valid => {
@@ -67,6 +66,7 @@ const submitForm = () => {
           await PetCategoryService.createCategory(formData.value);
           ElMessage.success("类别添加成功！");
         }
+        emit("reload");
         visible.value = false;
         formData.value = { name: "", createDate: null, isAvailable: true }; // Reset form data
       } catch (error) {

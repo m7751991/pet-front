@@ -4,6 +4,9 @@ class PetInfoService {
   getAllPets() {
     return axios.get(`/petInfo`);
   }
+  getPetById(id) {
+    return axios.get(`/petInfo/${id}`);
+  }
 
   createPet(pet) {
     return axios.post(`/petInfo`, pet, {

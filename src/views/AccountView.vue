@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h1>账号管理</h1>
+    <h1 style="display: flex">
+      账号管理
+      <el-button style="margin-left: auto" type="primary" @click="openModal"
+        >添加信息</el-button
+      >
+    </h1>
     <el-table :data="accounts" style="width: 100%">
       <el-table-column prop="username" label="用户名" width="180" />
       <el-table-column prop="isAdmin" label="是否管理员" width="120">
@@ -10,16 +15,14 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="isAdmin" label="创建日期" width="120">
+      <el-table-column prop="registerTime" label="添加日期" width="180">
+        <template #default="scope">
+          {{ new Date(scope.row.registerTime).toLocaleString() }}
+        </template>
       </el-table-column>
+
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button @click="viewDetails(scope.row)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button @click="editAccount(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
           <el-button
             @click="deleteAccount(scope.row)"
             type="text"
@@ -30,6 +33,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <InputAccount ref="account" @reload="fetchAccounts"></InputAccount>
   </div>
 </template>
 
@@ -37,8 +41,10 @@
 import { ref, onMounted } from "vue";
 import AccountService from "../services/AccountService";
 import { ElMessage, ElMessageBox } from "element-plus";
+import InputAccount from "@/components/InputAccount.vue";
 
 const accounts = ref([]);
+const account = ref();
 
 const fetchAccounts = () => {
   AccountService.getAllAccounts()
@@ -49,15 +55,8 @@ const fetchAccounts = () => {
       ElMessage.error("获取账号信息失败，请重试。");
     });
 };
-
-const viewDetails = account => {
-  ElMessage.info(`查看账号：${account.username}`);
-  // 实现查看详情逻辑
-};
-
-const editAccount = account => {
-  ElMessage.info(`编辑账号：${account.username}`);
-  // 实现编辑逻辑
+const openModal = () => {
+  account.value.openModal();
 };
 
 const deleteAccount = account => {

@@ -25,7 +25,10 @@
           <i class="el-icon-menu"></i>
           <span class="title">类别管理</span>
         </el-menu-item>
-        <el-menu-item index="/dashboard/account">
+        <el-menu-item
+          index="/dashboard/account"
+          v-if="userStore.userInfo.isAdmin"
+        >
           <i class="el-icon-menu"></i>
           <span class="title">账号管理</span>
         </el-menu-item>
@@ -40,10 +43,13 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
+import { onMounted } from "vue";
 
 const userStore = useUserStore();
 const router = useRouter();
-
+onMounted(() => {
+  console.log(userStore.getAuth, "????");
+});
 function logout() {
   userStore.clearUser(); // 清除用户信息
   router.push("/login"); // 重定向到登录页面

@@ -4,6 +4,9 @@ class PetHealthService {
   getAllHealthRecords() {
     return axios.get(`/petHealth`);
   }
+  getHealthRecordById(id) {
+    return axios.get(`/petHealth/${id}`);
+  }
 
   createHealthRecord(record) {
     return axios.post(`/petHealth`, record, {

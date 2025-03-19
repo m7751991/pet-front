@@ -5,10 +5,6 @@ class AuthService {
     return axios.post(`/auth/login`, user);
   }
 
-  logout() {
-    // 实现登出逻辑
-  }
-
   register(user) {
     return axios.post(`/auth/register`, user);
   }
