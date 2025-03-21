@@ -6,7 +6,7 @@ import PetInfo from "../views/PetInfo.vue";
 import PetHealth from "../views/PetHealth.vue";
 import PetCategory from "../views/PetCategory.vue";
 import Account from "../views/AccountView.vue";
-
+import MedicalManagement from "../views/MedicalManagement.vue";
 const routes = [
   { path: "/", redirect: "/login" },
   { path: "/login", component: Login },
@@ -19,6 +19,7 @@ const routes = [
       { path: "pet-health", component: PetHealth },
       { path: "pet-category", component: PetCategory },
       { path: "account", component: Account },
+      { path: "medical-management", component: MedicalManagement },
     ],
   },
 ];

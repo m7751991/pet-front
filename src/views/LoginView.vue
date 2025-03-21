@@ -1,6 +1,10 @@
 <template>
   <div class="login-container">
     <el-card class="login-card">
+      <div class="login-header">
+        <h2>欢迎登录</h2>
+        <p>宠物管理系统</p>
+      </div>
       <el-form
         :model="loginForm"
         :rules="rules"
@@ -26,12 +30,14 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit" icon="key"
-            >登录</el-button
-          >
-          <el-button type="primary" @click="onRegister" icon="Postcard"
-            >注册</el-button
-          >
+          <div class="login-button-container">
+            <el-button type="primary" @click="onSubmit" icon="key"
+              >登录</el-button
+            >
+            <el-button type="primary" @click="onRegister" icon="Postcard"
+              >注册</el-button
+            >
+          </div>
         </el-form-item>
       </el-form>
     </el-card>
@@ -69,7 +75,7 @@ const onSubmit = () => {
     if (valid) {
       AuthService.login(loginForm.value)
         .then(response => {
-          console.log("登录成功", response);
+          console.log("登录成功", response.data.user);
           // 将登录信息存储到 Pinia
           userStore.setUser(
             loginForm.value.username,
@@ -99,10 +105,62 @@ const onSubmit = () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 }
+
 .login-card {
   width: 400px;
   padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  color: #409eff;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.login-header p {
+  color: #909399;
+  font-size: 14px;
+  margin: 0;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 25px;
+}
+
+:deep(.el-button) {
+  width: 45%;
+  margin: 0 10px;
+  border-radius: 4px;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+:deep(.el-button:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.el-input__wrapper) {
+  border-radius: 4px;
+}
+
+:deep(.el-input__inner) {
+  padding: 12px 15px;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

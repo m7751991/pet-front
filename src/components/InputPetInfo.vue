@@ -1,5 +1,12 @@
 <template>
-  <el-dialog v-model="visible" title="录入宠物信息">
+  <el-dialog
+    v-model="visible"
+    :title="updateId ? '编辑宠物信息' : '添加宠物信息'"
+    width="50%"
+    :close-on-click-modal="false"
+    destroy-on-close
+    class="custom-dialog"
+  >
     <el-form :model="formData" ref="formRef">
       <el-form-item
         label="名称"
@@ -76,10 +83,12 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <div class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="submitForm">提交</el-button>
-    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="visible = false" plain>取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -174,8 +183,87 @@ const submitForm = () => {
 </script>
 
 <style scoped>
-.dialog-footer {
-  text-align: center;
+.custom-dialog {
+  border-radius: 8px;
 }
-/* Add any necessary styles */
+
+:deep(.el-dialog) {
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+:deep(.el-dialog__header) {
+  margin: 0;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:deep(.el-dialog__headerbtn) {
+  top: 20px;
+  right: 20px;
+}
+
+:deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 24px;
+}
+
+:deep(.el-input__wrapper),
+:deep(.el-textarea__inner) {
+  box-shadow: none;
+  border: 1px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.el-input__wrapper:hover),
+:deep(.el-textarea__inner:hover) {
+  border-color: #409eff;
+}
+
+:deep(.el-input__wrapper.is-focus),
+:deep(.el-textarea__inner:focus) {
+  border-color: #409eff;
+  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+
+:deep(.el-select) {
+  width: 100%;
+}
+
+.dialog-footer {
+  padding: 16px 24px;
+  text-align: right;
+  background: #f9fafb;
+  border-top: 1px solid #f0f0f0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.dialog-footer .el-button {
+  padding: 9px 20px;
+  font-weight: 500;
+  transition: all 0.3s;
+  min-width: 88px;
+}
+
+.dialog-footer .el-button:hover {
+  transform: translateY(-1px);
+}
+
+:deep(.el-switch) {
+  margin-left: 8px;
+}
+
+:deep(.el-date-editor) {
+  width: 100%;
+}
 </style>
